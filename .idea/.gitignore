@@ -1,16 +1,50 @@
-HELP.md
-build/
-!**/src/main/**
-!**/src/test/**
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# --- ОС и IDE ---
+.DS_Store
+.idea/
 *.iml
+*.iws
 *.ipr
+*.swp
 
-### Gradle ###
-.gradle
+# Сохраняем только настройки запуска
+!.idea/runConfigurations/
 
-### Logs ###
+# --- Java/Gradle ---
+.gradle/
+build/
+bin/
+out/
+
+# Но НЕ игнорируем wrapper-файлы
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Сохраняем build/bin/out в исходниках (если есть в src/)
+!**/src/main/**/build/
+!**/src/main/**/bin/
+!**/src/main/**/out/
+!**/src/test/**/build/
+!**/src/test/**/bin/
+!**/src/test/**/out/
+
+# --- Логи ---
 *.log
+
+# --- Конфигурация окружения ---
+.env
+.env.*
+
+# --- Node/Vite (если есть фронтэнд) ---
+node_modules/
+.svelte-kit/
+package-lock.json
+yarn.lock
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# --- Allure (репорты) ---
+allure-results/
+allure-report/
+
+# --- VSCode (если кто-то использует) ---
+.vscode/
