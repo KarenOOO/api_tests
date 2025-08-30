@@ -27,18 +27,15 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Создание нового пользователя")
     void createUserTest() {
         UserRequestModel request = step("Подготовока данных для запроса", () ->
-                UserRequestModel.builder()
-                        .name("morpheus")
-                        .job("leader")
-                        .build());
+                new UserRequestModel("morpheus", "leader"));
 
         CrudUserResponseModel response = step("Создаем пользователя", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .body(request)
                         .when()
                         .post(USERS_PATH)
                         .then()
-                        .spec(createUserResponseSpec201)
+                        .spec(getResponseSpec(201))
                         .extract()
                         .as(CrudUserResponseModel.class));
 
@@ -59,12 +56,12 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Получение списка пользователей")
     void usersListTest() {
         ListUsersResponseModel response = step("Получить список пользователей", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .queryParam("page", 2)
                         .when()
                         .get(USERS_PATH)
                         .then()
-                        .spec(updateUserResponseSpec200)
+                        .spec(getResponseSpec(200))
                         .extract()
                         .as(ListUsersResponseModel.class));
 
@@ -82,12 +79,12 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Получение данных конкретного пользователя")
     void singleUserTest() {
         SingleUserResponseModel response = step("Получаем пользователя по ID", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .pathParam("id", 2)
                         .when()
                         .get(USER_BY_ID_PATH)
                         .then()
-                        .spec(updateUserResponseSpec200)
+                        .spec(getResponseSpec(200))
                         .extract()
                         .as(SingleUserResponseModel.class));
 
@@ -105,19 +102,16 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Частичное обновление пользователя")
     void updateUserPatchMethodTest() {
         UserRequestModel request = step("Подготовока данных для запроса", () ->
-                UserRequestModel.builder()
-                        .name("neo")
-                        .job("the one")
-                        .build());
+                new UserRequestModel("neo", "the one"));
 
         CrudUserResponseModel response = step("Обновляем пользователя методом PATCH", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .pathParam("id", 2)
                         .body(request)
                         .when()
                         .patch(USER_BY_ID_PATH)
                         .then()
-                        .spec(updateUserResponseSpec200)
+                        .spec(getResponseSpec(200))
                         .extract()
                         .as(CrudUserResponseModel.class));
 
@@ -132,19 +126,16 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Полное обновление пользователя")
     void updateUserPutMethodTest() {
         UserRequestModel request = step("Подготовока данных для запроса", () ->
-                UserRequestModel.builder()
-                        .name("neo")
-                        .job("the one")
-                        .build());
+                new UserRequestModel("neo", "the one"));
 
         CrudUserResponseModel response = step("Обновляем пользователя методом PUT", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .pathParam("id", 2)
                         .body(request)
                         .when()
                         .put(USER_BY_ID_PATH)
                         .then()
-                        .spec(updateUserResponseSpec200)
+                        .spec(getResponseSpec(200))
                         .extract()
                         .as(CrudUserResponseModel.class));
 
@@ -159,12 +150,12 @@ public class ReqresTests extends BaseTest {
     @DisplayName("Удаление пользователя" )
     void deleteUserTest() {
         step("Удаляем пользователя", () ->
-                given(crudUserRequestSpec)
+                given(baseRequestSpec)
                         .pathParam("id", 2)
                         .when()
                         .delete(USER_BY_ID_PATH)
                         .then()
-                        .spec(deleteUserResponseSpec204));
+                        .spec(getResponseSpec(204)));
     }
 
 
